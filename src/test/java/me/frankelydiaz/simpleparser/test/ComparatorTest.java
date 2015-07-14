@@ -12,39 +12,18 @@ import static org.junit.Assert.assertEquals;
  */
 public class ComparatorTest {
 
-    public static final int MALE_PERSON_YEAR_OF_BIRTH = 1955;
-    public static final String MALE_PERSON_LAST_NAME = "Doe";
-    public static final String FEMALE_PERSON_LAST_NAME = "Kon";
 
-
-    public static Person getMalePerson() {
-        Person person = new Person();
-        person.setFirstName("John");
-        person.setLastName(MALE_PERSON_LAST_NAME);
-        person.setGender(Gender.MALE);
-        person.setDateOfBirth(DateUtils.getDateWithoutTime(MALE_PERSON_YEAR_OF_BIRTH, 5, 5));
-        return person;
-    }
-
-    public static Person getFemalePerson() {
-        Person person = new Person();
-        person.setFirstName("Elizabeth");
-        person.setLastName("Kon");
-        person.setGender(Gender.FEMALE);
-        person.setDateOfBirth(DateUtils.getDateWithoutTime(1980, 2, 2));
-        return person;
-    }
 
 
 
     @Test
     public void sortByGender() {
         List<Person> persons = new ArrayList<Person>();
-        persons.add(getMalePerson());
-        persons.add(getFemalePerson());
+        persons.add(PersonHelper.getMalePerson());
+        persons.add(PersonHelper.getFemalePerson());
 
 
-        Person anotherFemale = getFemalePerson();
+        Person anotherFemale = PersonHelper.getFemalePerson();
         anotherFemale.setLastName("Abott");
 
         persons.add(anotherFemale);
@@ -65,8 +44,8 @@ public class ComparatorTest {
     @Test
     public void sortByDateOfBirth() {
         List<Person> persons = new ArrayList<Person>();
-        persons.add(getFemalePerson());
-        persons.add(getMalePerson());
+        persons.add(PersonHelper.getFemalePerson());
+        persons.add(PersonHelper.getMalePerson());
 
         Collections.sort(persons,new DateOfBirthComparator());
 
@@ -75,21 +54,21 @@ public class ComparatorTest {
 
         int actualYear = DateUtils.getCalendarWithoutTime(firstPerson.getDateOfBirth()).get(Calendar.YEAR);
 
-        assertEquals(MALE_PERSON_YEAR_OF_BIRTH, actualYear);
+        assertEquals(PersonHelper.MALE_PERSON_YEAR_OF_BIRTH, actualYear);
 
     }
 
     @Test
     public void sortByLastNameDescending() {
         List<Person> persons = new ArrayList<Person>();
-        persons.add(getFemalePerson());
-        persons.add(getMalePerson());
+        persons.add(PersonHelper.getFemalePerson());
+        persons.add(PersonHelper.getMalePerson());
 
         Collections.sort(persons,new LastNameDescendingComparator());
 
         Person firstPerson = persons.get(0);
 
-        assertEquals(FEMALE_PERSON_LAST_NAME, firstPerson.getLastName());
+        assertEquals(PersonHelper.FEMALE_PERSON_LAST_NAME, firstPerson.getLastName());
 
 
     }

@@ -1,10 +1,11 @@
 import me.frankelydiaz.simpleparser.*;
+import me.frankelydiaz.simpleparser.Formatter;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by frankelydiaz on 7/14/15.
@@ -12,19 +13,63 @@ import java.util.List;
 public class Main {
 
     public static final FileEntry[] ENTRIES = {
-            new FileEntry("/Users/frankelydiaz/Desktop/codetest_files/input_files/comma.txt", Separator.COMMA),
-            new FileEntry("/Users/frankelydiaz/Desktop/codetest_files/input_files/pipe.txt", Separator.PIPE),
-            new FileEntry("/Users/frankelydiaz/Desktop/codetest_files/input_files/space.txt", Separator.SPACE),
+            new FileEntry("", Separator.COMMA),
+            new FileEntry("", Separator.PIPE),
+            new FileEntry("", Separator.SPACE),
     };
 
     public static void main(String[] args) throws IOException {
 
+        setUpArguments(args);
+
+        start();
+    }
+
+    public static void start() {
         List<Person> persons = new ArrayList<Person>();
 
-
         for (FileEntry fileEntry : ENTRIES) {
-           persons.addAll(parseFromFileEntry(fileEntry));
+            persons.addAll(parseFromFileEntry(fileEntry));
         }
+
+        printOutput1(persons);
+        printOutput2(persons);
+        printOutput3(persons);
+    }
+
+    public static void setUpArguments(String[] args) {
+
+        if (args == null || args.length != ENTRIES.length)
+            throw new IllegalArgumentException("You must supply comma, pipe and space file paths");
+
+        for (int i = 0; i < args.length; i++) {
+            ENTRIES[i].setFilePath(args[i]);
+        }
+    }
+
+    public static void printOutput(List<Person> persons, String title, Comparator comparator) {
+        System.out.println(title);
+        Formatter personFormatter = new PersonFormatter();
+
+        Collections.sort(persons, comparator);
+
+        for (Person person : persons) {
+            System.out.println(personFormatter.format(person));
+        }
+        System.out.println();
+
+    }
+
+    public static void printOutput1(List<Person> persons) {
+        printOutput(persons, "Output 1:", new GenderComparator());
+    }
+
+    public static void printOutput2(List<Person> persons) {
+        printOutput(persons, "Output 2:", new DateOfBirthComparator());
+    }
+
+    public static void printOutput3(List<Person> persons) {
+        printOutput(persons, "Output 3:", new LastNameDescendingComparator());
     }
 
     public static List<Person> parseFromFileEntry(FileEntry fileEntry) {
@@ -75,5 +120,9 @@ class FileEntry {
 
     public Separator getSeparator() {
         return separator;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }

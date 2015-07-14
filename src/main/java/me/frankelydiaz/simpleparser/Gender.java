@@ -4,16 +4,16 @@ package me.frankelydiaz.simpleparser;
  * Created by frankelydiaz on 7/13/15.
  */
 public enum  Gender {
-    MALE("M", "Male"),
+    MALE("Male", "M"),
     FEMALE("Female", "F");
 
     private String shortDescription;
     private String description;
 
 
-    Gender(String shortDescription, String description) {
-        this.shortDescription = shortDescription;
+    Gender(String description, String shortDescription) {
         this.description = description;
+        this.shortDescription = shortDescription;
     }
 
     public String getShortDescription() {
