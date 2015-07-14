@@ -15,7 +15,7 @@ public class DateAttributeConverter implements AttributeConverter<Date> {
          formatter = new SimpleDateFormat(format);
     }
 
-
+    //TODO: check the formatter, is not formatting the month as expected
     public Date convert(Object value) throws AttributeConversionException {
         try {
             return formatter.parse(value.toString());
