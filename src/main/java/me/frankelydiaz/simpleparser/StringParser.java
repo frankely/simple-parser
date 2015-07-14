@@ -1,27 +1,31 @@
 package me.frankelydiaz.simpleparser;
 
-import java.util.StringTokenizer;
+import me.frankelydiaz.simpleparser.elements.Element;
+import me.frankelydiaz.simpleparser.elements.ElementConverter;
 
 /**
  * Created by frankelydiaz on 7/13/15.
  */
-public class StringParser extends Parser<String, String[]> {
+public class StringParser<T> extends Parser<T,String> {
 
-    private char separator;
+    private Separator separator;
 
-    protected StringParser(char separator) {
+    protected StringParser(Separator separator) {
         this.separator = separator;
     }
 
-    public static StringParser fromCharacterSeparator(char separator) {
+    public static StringParser fromSeparator(Separator separator) {
         return new StringParser(separator);
 
     }
 
     @Override
-    public String[] parse(String element) {
-        final String[] attributes = element.split(String.format("%c", separator));
-        return newArrayWithoutSpaces(attributes);
+    public T parse(String value, String[] attributeNames, ElementConverter<T> elementConverter) {
+        final String[] attributes = newArrayWithoutSpaces(value.split(separator.getExpression()));
+
+        Element element = Element.fromArray(attributes,attributeNames);
+
+        return elementConverter.convert(element);
     }
 
     private String[] newArrayWithoutSpaces(String[] attributes) {
