@@ -6,24 +6,28 @@ import me.frankelydiaz.simpleparser.elements.ElementConverter;
 /**
  * Created by frankelydiaz on 7/13/15.
  */
-public class StringParser<T> extends Parser<T,String> {
+public class StringParser<T> extends Parser<T, String> {
 
     private Separator separator;
+    private ElementConverter<T> elementConverter;
+    private String[] attributeNames;
 
-    protected StringParser(Separator separator) {
-        this.separator = separator;
+    protected StringParser(ParserConfiguration configuration) {
+        this.separator = configuration.getSeparator();
+        this.elementConverter = configuration.getElementConverter();
+        this.attributeNames = configuration.getAttributeNames();
     }
 
-    public static StringParser fromSeparator(Separator separator) {
-        return new StringParser(separator);
+    public static StringParser fromParserConfiguration(ParserConfiguration configuration) {
+        return new StringParser(configuration);
 
     }
 
     @Override
-    public T parse(String value, String[] attributeNames, ElementConverter<T> elementConverter) {
+    public T parse(String value) {
         final String[] attributes = newArrayWithoutSpaces(value.split(separator.getExpression()));
 
-        Element element = Element.fromArray(attributes,attributeNames);
+        Element element = Element.fromArray(attributes, attributeNames);
 
         return elementConverter.convert(element);
     }
