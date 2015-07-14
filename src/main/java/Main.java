@@ -3,9 +3,6 @@ import me.frankelydiaz.simpleparser.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +21,14 @@ public class Main {
 
         List<Person> persons = new ArrayList<Person>();
 
-        FileEntry fileEntry = ENTRIES[0];
 
+        for (FileEntry fileEntry : ENTRIES) {
+           persons.addAll(parseFromFileEntry(fileEntry));
+        }
+    }
+
+    public static List<Person> parseFromFileEntry(FileEntry fileEntry) {
+        List<Person> persons = new ArrayList<Person>();
         ParserConfiguration parserConfiguration = ParserConfigurationFactory.newInstance(fileEntry.getSeparator());
 
         StringParser<Person> parser = StringParser.fromParserConfiguration(parserConfiguration);
@@ -34,30 +37,25 @@ public class Main {
         BufferedReader br;
         br = null;
         String sCurrentLine;
-        try
-        {
-            br = new BufferedReader(
-                    new FileReader(fileEntry.getFilePath()));
-            while ((sCurrentLine = br.readLine()) != null)
-            {
-               persons.add(parser.parse(sCurrentLine));
+        try {
+
+            br = new BufferedReader(new FileReader(fileEntry.getFilePath()));
+
+            while ((sCurrentLine = br.readLine()) != null) {
+                persons.add(parser.parse(sCurrentLine));
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally
-        {
-            try
-            {
+        } finally {
+            try {
                 if (br != null)
                     br.close();
-            } catch (IOException ex)
-            {
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
+
+        return persons;
     }
 }
 

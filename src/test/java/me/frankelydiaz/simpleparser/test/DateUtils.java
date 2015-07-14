@@ -21,6 +21,10 @@ public class DateUtils {
     }
 
     public static Date getDateWithoutTime(Date date) {
+        return getCalendarWithoutTime(date).getTime();
+    }
+
+    public static Calendar getCalendarWithoutTime(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -28,7 +32,8 @@ public class DateUtils {
         calendar.set(Calendar.SECOND,0);
         calendar.set(Calendar.MILLISECOND,0);
 
-        return calendar.getTime();
+        return calendar;
     }
+
 
 }
