@@ -1,13 +1,6 @@
 package me.frankelydiaz.simpleparser.test;
 
 import me.frankelydiaz.simpleparser.*;
-import me.frankelydiaz.simpleparser.attributes.AttributeConverter;
-import me.frankelydiaz.simpleparser.attributes.DateAttributeConverter;
-import me.frankelydiaz.simpleparser.attributes.GenderAttributeConverter;
-import me.frankelydiaz.simpleparser.elements.PersonElementConverter;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by frankelydiaz on 7/13/15.
